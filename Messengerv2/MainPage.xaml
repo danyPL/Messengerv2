@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Messengerv2.MainPage">
+
+    <Grid RowDefinitions="Auto, *" ColumnDefinitions="2*, 3*">
+        <ScrollView Grid.Column="0">
+            <VerticalStackLayout Padding="10">
+                <Label Text="Czaty" FontSize="Large" TextColor="Black"/>
+                <Frame BorderColor="#168AFF" CornerRadius="2" Padding="0" Margin="0,0,0,10" BackgroundColor="White">
+                    <VerticalStackLayout Padding="8">
+                        <CollectionView x:Name="ChatList" ItemsSource="{Binding ChatI}" SelectionChanged="OnChatSelected">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <HorizontalStackLayout Margin="0,0,0,10">
+                                            <Frame CornerRadius="50" WidthRequest="100" HeightRequest="100" Padding="0" IsClippedToBounds="True" BorderColor="White">
+                                                <Image Source="{Binding ImageSrc}" WidthRequest="100" HeightRequest="100" Aspect="AspectFill">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="OnImageTapped" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </Frame>
+                                            <VerticalStackLayout VerticalOptions="Center">
+                                                <Label Text="{Binding Name}" FontSize="Large" TextColor="Black"/>
+                                                <Label Text="{Binding Description}" TextColor="Black"/>
+                                            </VerticalStackLayout>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout Grid.Column="1" Padding="10">
+            <Frame BorderColor="#168AFF" CornerRadius="2" Padding="0" Margin="0,0,0,10" BackgroundColor="White" HeightRequest="833">
+                <Grid RowDefinitions="*, Auto">
+                    <ScrollView Grid.Row="0">
+
+                        <VerticalStackLayout x:Name="ChatView">
+                            <Label Text="{Binding Name}" TextColor="Black" Margin="20,5"/>
+                            <CollectionView  ItemsSource="{Binding Messages}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout>
+                                            <!--Konwertuje tło i położeniedanej wiadomości zależnie od tego czy wiadomość została wysłana przez użytkownika-->
+                                            <Frame BackgroundColor="{Binding setByUser, Converter={StaticResource BoolConventer}}" CornerRadius="16" Padding="16" Margin="12,0,12,12" HorizontalOptions="{Binding setByUser, Converter={StaticResource HorizontalConveter}}" BorderColor="White">
+                                                <Label Text="{Binding Text}" TextColor="Black" />
+                                            </Frame>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    <Frame Background="White" Margin="5" Padding="5" CornerRadius="0" Grid.Row="1">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Entry Placeholder="Wpisz wiadomość do przesłania.." Grid.Column="0" />
+                            <Button Text="Wyślij wiadomość" BackgroundColor="#168AFF" TextColor="White" Grid.Column="1" />
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>
